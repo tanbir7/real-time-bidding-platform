@@ -1,0 +1,26 @@
+version: '3.8'  # I've changed it to version 3.8 which is widely supported
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+    ports:
+      - "3306:3306"  # MySQL default port
+    volumes:
+      - db-data:/var/lib/mysql
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydatabase
+    ports:
+      - "3000:3000"
+
+volumes:
+  db-data:
